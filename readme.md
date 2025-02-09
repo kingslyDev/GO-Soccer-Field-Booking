@@ -11,7 +11,7 @@ Pastikan Anda sudah menginstal:
 
 ### 2️⃣ Clone Repository
 ```sh
-git clone https://github.com/username/repo.git
+git clone https://github.com/kingslyDev/GO-Soccer-Field-Booking.git
 cd repo
 ```
 
