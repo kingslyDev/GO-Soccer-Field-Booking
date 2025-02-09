@@ -8,12 +8,12 @@ const(
 )
 
 var(
-	 ErrInternalServerError = errors.New("Internal Server Error")
-	 ErrSQLError = errors.New("Sql Database Error")
-	 ErrTooManyRequests = errors.New("Too many request")
-	 ErrUnauthorized = errors.New("Unauthorized Request ")
-	 ErrInvalidToken = errors.New("Invalid Token Access")
-	 ErrForbidden = errors.New("Forbidden")
+	 ErrInternalServerError = errors.New("internal server error")
+	 ErrSQLError = errors.New("sql database error")
+	 ErrTooManyRequests = errors.New("too many request")
+	 ErrUnauthorized = errors.New("unauthorized request ")
+	 ErrInvalidToken = errors.New("invalid token access")
+	 ErrForbidden = errors.New("forbidden")
 )
 
 var GeneralErrors = []error{
