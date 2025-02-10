@@ -7,6 +7,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var Config AppConfig
+
 // Struktur utama untuk menyimpan konfigurasi aplikasi
 type AppConfig struct {
 	Port                  int            `json:"port"`
