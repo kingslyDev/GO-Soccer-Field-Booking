@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func RunRoleSeederRole(db *gorm.DB) {
+func RunRoleSeeder(db *gorm.DB) {
 	// code here
 	role := []models.Role{
 		{

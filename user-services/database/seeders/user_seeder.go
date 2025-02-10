@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func RunRoleSeeder(db *gorm.DB) {
+func RunUserSeeder(db *gorm.DB) {
 	// code here
 	password, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
 	user := models.User{
