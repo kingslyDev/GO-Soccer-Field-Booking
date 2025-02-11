@@ -2,15 +2,13 @@ package error
 
 import "errors"
 
-
-
-var(
-	 ErrInternalServerError = errors.New("internal server error")
-	 ErrSQLError = errors.New("sql database error")
-	 ErrTooManyRequests = errors.New("too many request")
-	 ErrUnauthorized = errors.New("unauthorized request ")
-	 ErrInvalidToken = errors.New("invalid token access")
-	 ErrForbidden = errors.New("forbidden")
+var (
+	ErrInternalServerError = errors.New("internal server error")
+	ErrSQLError            = errors.New("database server failed to execute query")
+	ErrTooManyRequests     = errors.New("too many requests")
+	ErrUnauthorized        = errors.New("unauthorized")
+	ErrInvalidToken        = errors.New("invalid token")
+	ErrForbidden           = errors.New("forbidden")
 )
 
 var GeneralErrors = []error{

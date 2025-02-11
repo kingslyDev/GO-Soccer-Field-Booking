@@ -3,10 +3,9 @@ package error
 import (
 	"errors"
 	"fmt"
-	"strings"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
+	"strings"
 )
 
 type ValidationResponse struct {
@@ -14,54 +13,52 @@ type ValidationResponse struct {
 	Message string `json:"message,omitempty"`
 }
 
-var errValidator = map[string]string{}
+var ErrValidator = map[string]string{}
 
-func ErrValidationResponse(err error) []ValidationResponse {
-	var validationResponses []ValidationResponse
+func ErrValidationResponse(err error) (validationResponse []ValidationResponse) {
 	var fieldErrors validator.ValidationErrors
-
 	if errors.As(err, &fieldErrors) {
 		for _, err := range fieldErrors {
 			switch err.Tag() {
 			case "required":
-				validationResponses = append(validationResponses, ValidationResponse{
+				validationResponse = append(validationResponse, ValidationResponse{
 					Field:   err.Field(),
-					Message: "This field is required",
+					Message: fmt.Sprintf("%s is required", err.Field()),
 				})
 			case "email":
-				validationResponses = append(validationResponses, ValidationResponse{
+				validationResponse = append(validationResponse, ValidationResponse{
 					Field:   err.Field(),
-					Message: "Invalid email format",
+					Message: fmt.Sprintf("%s is not a valid email address", err.Field()),
 				})
 			default:
-				errValidator, ok := errValidator[err.Tag()]
+				errValidator, ok := ErrValidator[err.Tag()]
 				if ok {
 					count := strings.Count(errValidator, "%s")
 					if count == 1 {
-						validationResponses = append(validationResponses, ValidationResponse{
+						validationResponse = append(validationResponse, ValidationResponse{
 							Field:   err.Field(),
 							Message: fmt.Sprintf(errValidator, err.Field()),
 						})
 					} else {
-						validationResponses = append(validationResponses, ValidationResponse{
+						validationResponse = append(validationResponse, ValidationResponse{
 							Field:   err.Field(),
 							Message: fmt.Sprintf(errValidator, err.Field(), err.Param()),
 						})
 					}
 				} else {
-					validationResponses = append(validationResponses, ValidationResponse{
+					validationResponse = append(validationResponse, ValidationResponse{
 						Field:   err.Field(),
-						Message: fmt.Sprintf("something wrong with %s", err.Field()),
+						Message: fmt.Sprintf("something wrong on %s; %s", err.Field(), err.Tag()),
 					})
 				}
 			}
 		}
 	}
 
-	return validationResponses
+	return validationResponse
 }
 
-func WrapError(err error)error{
+func WrapError(err error) error {
 	logrus.Errorf("error: %v", err)
 	return err
 }

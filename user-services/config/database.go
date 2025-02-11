@@ -2,23 +2,23 @@ package config
 
 import (
 	"fmt"
-	"net/url"
-	"time"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"net/url"
+	"time"
 )
 
-func initDatabase() (*gorm.DB, error) {
-	config := config
-	endcodedPassword := url.QueryEscape(config.Database.Password)
-	uri := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", 
-		config.Database.Username, 
-		endcodedPassword, 
-		config.Database.Host, 
-		config.Database.Port, 
+func InitDatabase() (*gorm.DB, error) {
+	config := Config
+	encodedPassword := url.QueryEscape(config.Database.Password)
+	uri := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=disable",
+		config.Database.Username,
+		encodedPassword,
+		config.Database.Host,
+		config.Database.Port,
 		config.Database.Name,
 	)
+
 	db, err := gorm.Open(postgres.Open(uri), &gorm.Config{})
 	if err != nil {
 		return nil, err
@@ -29,10 +29,9 @@ func initDatabase() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	sqlDB.SetMaxIdleConns(config.Database.MaxIdleConnection)
-	sqlDB.SetMaxOpenConns(config.Database.MaxOpenConnection)
-	sqlDB.SetConnMaxLifetime(time.Duration(config.Database.MaxLifetimeConnection) * time.Second)
+	sqlDB.SetMaxIdleConns(config.Database.MaxIdleConnections)
+	sqlDB.SetMaxOpenConns(config.Database.MaxOpenConnections)
+	sqlDB.SetConnMaxLifetime(time.Duration(config.Database.MaxLifeTimeConnection) * time.Second)
 	sqlDB.SetConnMaxIdleTime(time.Duration(config.Database.MaxIdleTime) * time.Second)
-
 	return db, nil
 }

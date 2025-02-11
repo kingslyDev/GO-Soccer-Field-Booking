@@ -1,6 +1,6 @@
 package constants
 
-const(
+const (
 	Success = "success"
-	Error = "error"
+	Error   = "error"
 )

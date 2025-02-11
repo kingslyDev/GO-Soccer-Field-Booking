@@ -8,11 +8,10 @@ import (
 )
 
 func RunRoleSeeder(db *gorm.DB) {
-	// code here
-	role := []models.Role{
+	roles := []models.Role{
 		{
 			Code: "ADMIN",
-			Name: "Administator",
+			Name: "Administrator",
 		},
 		{
 			Code: "CUSTOMER",
@@ -20,12 +19,12 @@ func RunRoleSeeder(db *gorm.DB) {
 		},
 	}
 
-	for i, role := range role {
+	for _, role := range roles {
 		err := db.FirstOrCreate(&role, models.Role{Code: role.Code}).Error
 		if err != nil {
-			logrus.Errorf("Error while seeding role %d: %v", i, err)
+			logrus.Errorf("failed to seed role: %v", err)
 			panic(err)
 		}
-		logrus.Infof("Role %s successfully seeded", role.Code)
+		logrus.Infof("role %s successfully seeded", role.Code)
 	}
 }
